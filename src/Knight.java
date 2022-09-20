@@ -7,4 +7,9 @@ public class Knight extends Warrior{
 
     }
 
+    public Knight(int healthPoint,int damage,String type){
+        super();
+    }
+    public Knight(){super();}
+
 }

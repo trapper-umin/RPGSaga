@@ -4,4 +4,8 @@ public class Wizard extends Warrior{
         setFlag(true);
     }
 
+    public Wizard(int healthPoint,int damage,String type){
+        super();
+    }
+
 }

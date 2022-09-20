@@ -4,4 +4,8 @@ public class Archer extends Warrior {
         setFlag(true);
     }
 
+    public Archer(int healthPoint,int damage,String type){
+        super();
+    }
+
 }

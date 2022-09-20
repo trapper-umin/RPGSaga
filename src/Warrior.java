@@ -24,4 +24,11 @@ public class Warrior {
     public boolean getFlag(){
         return flag;
     }
+
+    public Warrior(int healthPoint,int damage,String type){
+        this.healthPoint=healthPoint;
+        this.damage=damage;
+        this.type=type;
+    }
+    public Warrior(){}
 }
