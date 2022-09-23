@@ -1,8 +1,14 @@
-public class Warrior {
+package warriors;
+
+public class Warrior implements WarriorMethods {
     private int healthPoint;
     private int damage;
-    private String type;
-    private boolean flag;
+    private String type,id;
+
+    public void doSkill(){}
+    public String getSkill(){
+        return null;
+    }
 
     public void setHealthPoint(int healthPoint){
         this.healthPoint=healthPoint;
@@ -11,9 +17,7 @@ public class Warrior {
         this.damage=damage;
     }
     public void setType(String type){this.type=type;}
-    public void setFlag(boolean flag){
-        this.flag=flag;
-    }
+    public void setID(String id){this.id=id;}
     public int getHealthPoint(){
         return healthPoint;
     }
@@ -21,9 +25,7 @@ public class Warrior {
         return damage;
     }
     public String getType(){return type;}
-    public boolean getFlag(){
-        return flag;
-    }
+    public String getID(){return id;}
 
     public Warrior(int healthPoint,int damage,String type){
         this.healthPoint=healthPoint;
