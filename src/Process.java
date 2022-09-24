@@ -2,6 +2,8 @@ import warriors.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -47,20 +49,47 @@ public class Process {
                 }
             }
         }
-
+        //вывод всех воинов
         for (int i=0;i<warriors.length;i++){
             System.out.printf("Type: %s\nHP: %d\nDamage: %d\nSkill: %s\n\n",warriors[i].getType(),warriors[i].getHealthPoint(),warriors[i].getDamage(),warriors[i].getSkill());
         }
 
+        List<Warrior> warriorsCollection=new ArrayList<>();
+        int counter=0;
+
         for (int i=0;i<warriors.length-1;i=i+2){
-            warriors[i+1].setHealthPoint(warriors[i+1].getHealthPoint()-warriors[i].getDamage());
-            System.out.print(warriors[i+1].getHealthPoint()+"\n");
+
+            while (true){
+                counter+=1;
+                //удар первого воина по второму
+                warriors[i+1].setHealthPoint(warriors[i+1].getHealthPoint()-warriors[i].getDamage());
+                if(warriors[i+1].getHealthPoint()<=0){
+                    warriors[i+1].setHealthPoint(0);
+                    System.out.printf("%s inflicted "+warriors[i].getDamage()+" damage and %s left "+warriors[i+1].getHealthPoint()+" HP\n",warriors[i].getType(),warriors[i+1].getType());
+                    System.out.printf("%s WIN IN %d ROUND\n",warriors[i].getType(),counter);
+                    System.out.println();
+                    warriorsCollection.add(warriors[i]);
+                    break;
+                }else System.out.printf("%s inflicted "+warriors[i].getDamage()+" damage and %s left "+warriors[i+1].getHealthPoint()+" HP\n",warriors[i].getType(),warriors[i+1].getType());
+                //удар второго воина по первому
+                warriors[i].setHealthPoint(warriors[i].getHealthPoint()-warriors[i+1].getDamage());
+                if(warriors[i].getHealthPoint()<=0){
+                    warriors[i].setHealthPoint(0);
+                    System.out.printf("%s inflicted "+warriors[i+1].getDamage()+" damage and %s left "+warriors[i].getHealthPoint()+" HP\n",warriors[i+1].getType(),warriors[i].getType());
+                    System.out.printf("%s WIN IN %d ROUND\n",warriors[i+1].getType(),counter);
+                    System.out.println();
+                    warriorsCollection.add(warriors[i+1]);
+                    break;
+                }else System.out.printf("%s inflicted "+warriors[i+1].getDamage()+" damage and %s left "+warriors[i].getHealthPoint()+" HP\n",warriors[i+1].getType(),warriors[i].getType());
+                System.out.println();
+            }
+
 
 
 
 
         }
-
+        System.out.println(warriorsCollection.get(0).getHealthPoint());
 
     }
 
@@ -75,15 +104,15 @@ public class Process {
         switch (warriorNumber){
             case 0 -> {
                 generateWarriorName(file);
-                warriors[i].setType("warriors.Knight"+" "+file.nextLine());
+                warriors[i].setType("Knight"+" "+file.nextLine());
             }
             case 1 -> {
                 generateWarriorName(file);
-                warriors[i].setType("warriors.Archer"+" "+file.nextLine());
+                warriors[i].setType("Archer"+" "+file.nextLine());
             }
             case 2 -> {
                 generateWarriorName(file);
-                warriors[i].setType("warriors.Wizard"+" "+file.nextLine());
+                warriors[i].setType("Wizard"+" "+file.nextLine());
             }
         }
     }
