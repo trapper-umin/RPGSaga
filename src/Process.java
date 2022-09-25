@@ -11,93 +11,113 @@ public class Process {
     Scanner keyboard=new Scanner(System.in);
     Random random=new Random();
     private static final float PERCENTAGE_OF_HEALTH_POINT=0.05f;
-    private static final int NUMBER_OF_NAMES=155;
+    private static final int NUMBER_OF_NAMES=154;
 
     public void game() throws FileNotFoundException {
-        int numberOfPlayers,warriorNumber;
+        int numberOfWarriors,warriorNumber;
 
         do {
 
             System.out.print("Enter the number of players: ");
-            numberOfPlayers =keyboard.nextInt();
+            numberOfWarriors =keyboard.nextInt();
 
-        }while (!(numberOfPlayers %2==0));
+        }while (!(numberOfWarriors %2==0));
         System.out.print("\n");
 
-        Warrior[] warriors=new Warrior[numberOfPlayers];
+        List<Warrior> warriors=new ArrayList<>();
+        List<String>hashCodeIndex=new ArrayList<>();
 
-        for (int i = 0; i<numberOfPlayers; i++){
+        for (int i = 0; i<numberOfWarriors; i++){
             warriorNumber=random.nextInt(3);
             switch (warriorNumber) {
                 case 0 -> {
-                    warriors[i] = new Knight();
-                    randomHealthPoint(warriors, i);
-                    randomDamage(warriors, i);
-                    randomTitle(warriors, i, warriorNumber);
+                    //создание воина с помощью колекции
+                    warriors.add(new Knight());
+                    randomHealthPoint(warriors,i);
+                    randomDamage(warriors,i);
+                    randomTitle(warriors,i,warriorNumber);
                 }
                 case 1 -> {
-                    warriors[i] = new Archer();
-                    randomHealthPoint(warriors, i);
-                    randomDamage(warriors, i);
-                    randomTitle(warriors, i, warriorNumber);
+                    warriors.add(new Archer());
+                    randomHealthPoint(warriors,i);
+                    randomDamage(warriors,i);
+                    randomTitle(warriors,i,warriorNumber);
                 }
                 case 2 -> {
-                    warriors[i] = new Wizard();
-                    randomHealthPoint(warriors, i);
-                    randomDamage(warriors, i);
-                    randomTitle(warriors, i, warriorNumber);
+                    warriors.add(new Wizard());
+                    randomHealthPoint(warriors,i);
+                    randomDamage(warriors,i);
+                    randomTitle(warriors,i,warriorNumber);
                 }
             }
         }
         //вывод всех воинов
-        for (int i=0;i<warriors.length;i++){
-            System.out.printf("Type: %s\nHP: %d\nDamage: %d\nSkill: %s\n\n",warriors[i].getType(),warriors[i].getHealthPoint(),warriors[i].getDamage(),warriors[i].getSkill());
+        for (int i=0;i<warriors.size();i++){
+            System.out.printf("Type: %s\nHP: %d\nDamage: %d\nSkill: %s\n\n",warriors.get(i).getType(),warriors.get(i).getHealthPoint(),warriors.get(i).getDamage(),warriors.get(i).getSkill());
         }
 
-        List<Warrior> warriorsCollection=new ArrayList<>();
-        int counter=0;
 
-        for (int i=0;i<warriors.length-1;i=i+2){
+        int counter=0,flag=0;
+        int warriorsSize=warriors.size();
+
+        for (int i=0;i<warriorsSize-1;i=i+2){
 
             while (true){
                 counter+=1;
+
                 //удар первого воина по второму
-                warriors[i+1].setHealthPoint(warriors[i+1].getHealthPoint()-warriors[i].getDamage());
-                if(warriors[i+1].getHealthPoint()<=0){
-                    warriors[i+1].setHealthPoint(0);
-                    System.out.printf("%s inflicted "+warriors[i].getDamage()+" damage and %s left "+warriors[i+1].getHealthPoint()+" HP\n",warriors[i].getType(),warriors[i+1].getType());
-                    System.out.printf("%s WIN IN %d ROUND\n",warriors[i].getType(),counter);
+                warriors.get(i+1).setHealthPoint(warriors.get(i+1).getHealthPoint()-warriors.get(i).getDamage());
+                if(warriors.get(i+1).getHealthPoint()<=0){
+                    warriors.get(i+1).setHealthPoint(0);
+                    System.out.printf("%s inflicted "+warriors.get(i).getDamage()+" damage and %s left "+warriors.get(i+1).getHealthPoint()+" HP\n",warriors.get(i).getType(),warriors.get(i+1).getType());
+                    System.out.printf("%s WIN IN %d ROUND\n",warriors.get(i).getType(),counter);
                     System.out.println();
-                    warriorsCollection.add(warriors[i]);
+                    hashCodeIndex.add(warriors.get(i+1).toString());
                     break;
-                }else System.out.printf("%s inflicted "+warriors[i].getDamage()+" damage and %s left "+warriors[i+1].getHealthPoint()+" HP\n",warriors[i].getType(),warriors[i+1].getType());
+                }else System.out.printf("%s inflicted "+warriors.get(i).getDamage()+" damage and %s left "+warriors.get(i+1).getHealthPoint()+" HP\n",warriors.get(i).getType(),warriors.get(i+1).getType());
+
                 //удар второго воина по первому
-                warriors[i].setHealthPoint(warriors[i].getHealthPoint()-warriors[i+1].getDamage());
-                if(warriors[i].getHealthPoint()<=0){
-                    warriors[i].setHealthPoint(0);
-                    System.out.printf("%s inflicted "+warriors[i+1].getDamage()+" damage and %s left "+warriors[i].getHealthPoint()+" HP\n",warriors[i+1].getType(),warriors[i].getType());
-                    System.out.printf("%s WIN IN %d ROUND\n",warriors[i+1].getType(),counter);
+                warriors.get(i).setHealthPoint(warriors.get(i).getHealthPoint()-warriors.get(i+1).getDamage());
+                if(warriors.get(i).getHealthPoint()<=0){
+                    warriors.get(i).setHealthPoint(0);
+                    System.out.printf("%s inflicted "+warriors.get(i+1).getDamage()+" damage and %s left "+warriors.get(i).getHealthPoint()+" HP\n",warriors.get(i+1).getType(),warriors.get(i).getType());
+                    System.out.printf("%s WIN IN %d ROUND\n",warriors.get(i+1).getType(),counter);
                     System.out.println();
-                    warriorsCollection.add(warriors[i+1]);
+                    hashCodeIndex.add(warriors.get(i).toString());
                     break;
-                }else System.out.printf("%s inflicted "+warriors[i+1].getDamage()+" damage and %s left "+warriors[i].getHealthPoint()+" HP\n",warriors[i+1].getType(),warriors[i].getType());
+                }else System.out.printf("%s inflicted "+warriors.get(i+1).getDamage()+" damage and %s left "+warriors.get(i).getHealthPoint()+" HP\n",warriors.get(i+1).getType(),warriors.get(i).getType());
                 System.out.println();
             }
-
-
-
-
+            flag+=1;
 
         }
-        System.out.println(warriorsCollection.get(0).getHealthPoint());
 
+        for(int i=0;i<warriors.size();i++){
+            for (int j=0;j<hashCodeIndex.size();j++){
+
+                if(warriors.get(i).toString().equals(hashCodeIndex.get(j))){
+                    warriors.remove(warriors.get(i));
+                }
+
+            }
+        }
+
+        for (int i=0; i<warriors.size();i++){
+            System.out.print(warriors.get(i).getType()+" "+warriors.get(i).getHealthPoint()+"\n");
+        }
     }
 
     private void randomHealthPoint(Warrior[] warriors, int i){
-        warriors[i].setHealthPoint(random.nextInt(1000));
+        warriors[i].setHealthPoint(random.nextInt(1000+1));
+    }
+    private void randomHealthPoint(List<Warrior> warriors,int i){
+        warriors.get(i).setHealthPoint(random.nextInt(1000+1));
     }
     private void randomDamage(Warrior[] warriors,int i){
         warriors[i].setDamage(Math.round(warriors[i].getHealthPoint()*PERCENTAGE_OF_HEALTH_POINT));
+    }
+    private void randomDamage(List<Warrior> warriors,int i){
+        warriors.get(i).setDamage(Math.round(warriors.get(i).getHealthPoint()*PERCENTAGE_OF_HEALTH_POINT));
     }
     private void randomTitle(Warrior[] warriors,int i,int warriorNumber) throws FileNotFoundException {
         Scanner file=new Scanner(new File("names.txt"));
@@ -113,6 +133,23 @@ public class Process {
             case 2 -> {
                 generateWarriorName(file);
                 warriors[i].setType("Wizard"+" "+file.nextLine());
+            }
+        }
+    }
+    private void randomTitle(List<Warrior> warriors,int i,int warriorNumber) throws FileNotFoundException{
+        Scanner file=new Scanner(new File("names.txt"));
+        switch (warriorNumber){
+            case 0 -> {
+                generateWarriorName(file);
+                warriors.get(i).setType("Knight"+" "+file.nextLine());
+            }
+            case 1 -> {
+                generateWarriorName(file);
+                warriors.get(i).setType("Archer"+" "+file.nextLine());
+            }
+            case 2 -> {
+                generateWarriorName(file);
+                warriors.get(i).setType("Wizard"+" "+file.nextLine());
             }
         }
     }
