@@ -1,6 +1,6 @@
 package warriors;
 
-public class Warrior implements WarriorMethods {
+public abstract class Warrior implements WarriorMethods {
     private int healthPoint;
     private int damage;
     private String type,id;

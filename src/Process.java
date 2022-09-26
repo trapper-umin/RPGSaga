@@ -13,7 +13,7 @@ public class Process {
     private static final float PERCENTAGE_OF_HEALTH_POINT=0.05f;
     private static final int NUMBER_OF_NAMES=154;
 
-    public void game() throws FileNotFoundException {
+    public void game(){
         int numberOfWarriors,warriorNumber;
 
         do {
@@ -110,13 +110,13 @@ public class Process {
     private void randomHealthPoint(Warrior[] warriors, int i){
         warriors[i].setHealthPoint(random.nextInt(1000+1));
     }
-    private void randomHealthPoint(List<Warrior> warriors,int i){
+    private void randomHealthPoint(List<? extends Warrior>warriors,int i){
         warriors.get(i).setHealthPoint(random.nextInt(1000+1));
     }
     private void randomDamage(Warrior[] warriors,int i){
         warriors[i].setDamage(Math.round(warriors[i].getHealthPoint()*PERCENTAGE_OF_HEALTH_POINT));
     }
-    private void randomDamage(List<Warrior> warriors,int i){
+    private void randomDamage(List<? extends Warrior>warriors,int i){
         warriors.get(i).setDamage(Math.round(warriors.get(i).getHealthPoint()*PERCENTAGE_OF_HEALTH_POINT));
     }
     private void randomTitle(Warrior[] warriors,int i,int warriorNumber) throws FileNotFoundException {
@@ -136,8 +136,15 @@ public class Process {
             }
         }
     }
-    private void randomTitle(List<Warrior> warriors,int i,int warriorNumber) throws FileNotFoundException{
-        Scanner file=new Scanner(new File("names.txt"));
+    private void randomTitle(List<? extends Warrior>warriors,int i,int warriorNumber){
+
+        Scanner file=null;
+        try {
+            file = new Scanner(new File("names.txt"));
+        } catch (FileNotFoundException e) {
+            System.out.print("File Not Found Exception");
+        }
+
         switch (warriorNumber){
             case 0 -> {
                 generateWarriorName(file);
