@@ -61,7 +61,7 @@ public class Process {
         int warriorsSize=warriors.size();
 
         for (int i=0;i<warriorsSize-1;i=i+2){
-
+            counter=0;
             while (true){
                 counter+=1;
 
@@ -103,8 +103,10 @@ public class Process {
         }
 
         for (int i=0; i<warriors.size();i++){
-            System.out.print(warriors.get(i).getType()+" "+warriors.get(i).getHealthPoint()+"\n");
+            System.out.print(warriors.get(i).getClass()+" "+warriors.get(i).getType()+" "+warriors.get(i).getHealthPoint()+"\n");
         }
+        System.out.println(warriors.size());
+
     }
 
     private void randomHealthPoint(Warrior[] warriors, int i){
@@ -118,6 +120,9 @@ public class Process {
     }
     private void randomDamage(List<? extends Warrior>warriors,int i){
         warriors.get(i).setDamage(Math.round(warriors.get(i).getHealthPoint()*PERCENTAGE_OF_HEALTH_POINT));
+        if (warriors.get(i).getDamage()==0){
+            warriors.get(i).setDamage(1);
+        }
     }
     private void randomTitle(Warrior[] warriors,int i,int warriorNumber) throws FileNotFoundException {
         Scanner file=new Scanner(new File("names.txt"));
