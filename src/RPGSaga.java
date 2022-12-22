@@ -6,14 +6,14 @@ public class RPGSaga {
         Process process=new Process();
         boolean flag=true;
         String flagChar;
-        do{
-            process.game();
+        process.game();
+        while (flag){
             System.out.print("Do you want to play more [y]/[n]: ");
-            flagChar=keyboard.next();
-            switch (flagChar){
-                case "y" -> flag=true;
+            flagChar = keyboard.next();
+            switch (flagChar) {
+                case "y" -> process.game();
                 case "n" -> flag=false;
             }
-        }while (flag);
+        }
     }
 }

@@ -1,7 +1,9 @@
+import com.google.common.math.LongMath;
 import warriors.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,7 +23,7 @@ public class Process {
             System.out.print("Enter the number of players: ");
             numberOfWarriors =keyboard.nextInt();
 
-        }while (!(numberOfWarriors %2==0));
+        }while (!(numberOfWarriors==2 || numberOfWarriors==4 || numberOfWarriors==8 || numberOfWarriors==16 || numberOfWarriors==32 || numberOfWarriors==64 || numberOfWarriors==128 || numberOfWarriors==256 ||numberOfWarriors==512 || numberOfWarriors==1024 ||numberOfWarriors==2048));
         System.out.print("\n");
 
         List<Warrior> warriors=new ArrayList<>();
@@ -56,8 +58,16 @@ public class Process {
             System.out.printf("Type: %s\nHP: %d\nDamage: %d\nSkill: %s\n\n",warriors.get(i).getType(),warriors.get(i).getHealthPoint(),warriors.get(i).getDamage(),warriors.get(i).getSkill());
         }
 
+        double numberOfWarriorsDouble=numberOfWarriors;
+        double warriorsLength=Math.sqrt(numberOfWarriorsDouble);
+        for(int i=0;i<warriorsLength;i++){
+            warriors=fight(warriors,hashCodeIndex);
+        }
 
-        int counter=0,flag=0;
+    }
+
+    private List<Warrior> fight(List<Warrior> warriors, List<String> hashCodeIndex){
+        int counter=0;
         int warriorsSize=warriors.size();
 
         for (int i=0;i<warriorsSize-1;i=i+2){
@@ -88,8 +98,6 @@ public class Process {
                 }else System.out.printf("%s inflicted "+warriors.get(i+1).getDamage()+" damage and %s left "+warriors.get(i).getHealthPoint()+" HP\n",warriors.get(i+1).getType(),warriors.get(i).getType());
                 System.out.println();
             }
-            flag+=1;
-
         }
 
         for(int i=0;i<warriors.size();i++){
@@ -98,7 +106,6 @@ public class Process {
                 if(warriors.get(i).toString().equals(hashCodeIndex.get(j))){
                     warriors.remove(warriors.get(i));
                 }
-
             }
         }
 
@@ -106,7 +113,7 @@ public class Process {
             System.out.print(warriors.get(i).getClass()+" "+warriors.get(i).getType()+" "+warriors.get(i).getHealthPoint()+"\n");
         }
         System.out.println(warriors.size());
-
+        return warriors;
     }
 
     private void randomHealthPoint(Warrior[] warriors, int i){
